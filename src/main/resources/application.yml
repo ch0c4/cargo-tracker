@@ -9,6 +9,9 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+  server:
+    cors:
+      enabled: true
 
 rabbitmq:
   queues:
@@ -17,6 +20,7 @@ rabbitmq:
     deliveredCargoQueue: cargo.delivered
     handlingEventQueue: cargo.handling.event
     rejectedEventQueue: cargo.rejected.event
+  uri: "amqp://guest:guest@localhost:5672"
 
 datasources:
   default:
@@ -34,45 +38,4 @@ jpa:
         hbm2ddl:
           auto: update
     entity-scan:
-      packages: org.johan.tracker.infrastructure.jpa
-
-locations:
-  HONGKONG:
-    city: 'Hong Kong'
-    unLocode: 'CNHKG'
-  MELBOURNE:
-    city: 'Melbourne'
-    unLocode: 'AUMEL'
-  STOCKHOLM:
-    city: 'Stockholm'
-    unLocode: 'SESTO'
-  HELSINKI:
-    city: 'Helsinki'
-    unLocode: 'FIHEL'
-  CHICAGO:
-    city: 'Chicago'
-    unLocode: 'USCHI'
-  TOKYO:
-    city: 'Tokyo'
-    unLocode: 'JNTKO'
-  HAMBURG:
-    city: 'Hamburg'
-    unLocode: 'DEHAM'
-  SHANGHAI:
-    city: 'Shanghai'
-    unLocode: 'CNSHA'
-  ROTTERDAM:
-    city: 'Rotterdam'
-    unLocode: 'NLRTM'
-  GOTHENBURG:
-    city: 'Gothenburg'
-    unLocode: 'SEGOT'
-  HANGZHOU:
-    city: 'Hangzhou'
-    unLocode: 'CNHGH'
-  NEWYORK:
-    city: 'New York'
-    unLocode: 'USNYC'
-  DALLAS:
-    city: 'Dallas'
-    unLocode: 'USDAL'
+      packages: org.johan.tracker.cargotracker.infrastructure.jpa

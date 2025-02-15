@@ -30,24 +30,26 @@ public class CargoJpaRepository implements CargoRepository {
 
   @Override
   public void store(Cargo cargo) {
-    LocationEntity origin =
-        locationCrudRepository
-            .findByUnLocode(cargo.getOrigin().unLocode().code())
-            .orElseThrow(() -> new IllegalStateException("Origin location not found"));
 
-    LocationEntity spec_origin =
-        locationCrudRepository
-            .findByUnLocode(cargo.getRouteSpecification().origin().unLocode().code())
-            .orElseThrow(() -> new IllegalStateException("Route specification origin not found"));
-    LocationEntity spec_destination =
-        locationCrudRepository
-            .findByUnLocode(cargo.getRouteSpecification().destination().unLocode().code())
-            .orElseThrow(() -> new IllegalStateException("Route specification origin not found"));
-
-    CargoEntity entity = cargoCrudRepository.findByTrackingId(cargo.getTrackingId().id()).orElse(null);
+    CargoEntity entity =
+        cargoCrudRepository.findByTrackingId(cargo.getTrackingId().id()).orElse(null);
 
     // Create
     if (entity == null) {
+      LocationEntity origin =
+          locationCrudRepository
+              .findByUnLocode(cargo.getOrigin().unLocode().code())
+              .orElseThrow(() -> new IllegalStateException("Origin location not found"));
+
+      LocationEntity spec_origin =
+          locationCrudRepository
+              .findByUnLocode(cargo.getRouteSpecification().origin().unLocode().code())
+              .orElseThrow(() -> new IllegalStateException("Route specification origin not found"));
+      LocationEntity spec_destination =
+          locationCrudRepository
+              .findByUnLocode(cargo.getRouteSpecification().destination().unLocode().code())
+              .orElseThrow(() -> new IllegalStateException("Route specification origin not found"));
+
       cargoCrudRepository.save(
           new CargoEntity(
               null,
@@ -61,7 +63,27 @@ public class CargoJpaRepository implements CargoRepository {
     }
 
     // Update
+    LocationEntity newOrigin =
+        locationCrudRepository
+            .findByUnLocode(cargo.getOrigin().unLocode().code())
+            .orElseThrow(() -> new IllegalStateException("Origin location not found"));
 
+    LocationEntity newSpecOrigin =
+        locationCrudRepository
+            .findByUnLocode(cargo.getRouteSpecification().origin().unLocode().code())
+            .orElseThrow(() -> new IllegalStateException("Route specification origin not found"));
+
+    LocationEntity newSpecDestination =
+        locationCrudRepository
+            .findByUnLocode(cargo.getRouteSpecification().destination().unLocode().code())
+            .orElseThrow(
+                () -> new IllegalStateException("Route specification destination not found"));
+
+    entity.setOrigin(newOrigin);
+    entity.setRouteSpecification(
+        new RouteSpecificationEntity(
+            newSpecOrigin, newSpecDestination, cargo.getRouteSpecification().arrivalDeadline()));
+    cargoCrudRepository.update(entity);
   }
 
   @Override
