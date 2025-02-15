@@ -1,0 +1,78 @@
+micronaut:
+  application:
+    name: cargo-tracker
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+
+rabbitmq:
+  queues:
+    cargoHandledQueue: cargo.handled
+    misdirectedCargoQueue: cargo.misdirected
+    deliveredCargoQueue: cargo.delivered
+    handlingEventQueue: cargo.handling.event
+    rejectedEventQueue: cargo.rejected.event
+
+datasources:
+  default:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    db-type: mysql
+    dialect: MYSQL
+    jdbc-url: jdbc:mysql://localhost:3306/cargo
+    username: root
+    password: azeqsd
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+    entity-scan:
+      packages: org.johan.tracker.infrastructure.jpa
+
+locations:
+  HONGKONG:
+    city: 'Hong Kong'
+    unLocode: 'CNHKG'
+  MELBOURNE:
+    city: 'Melbourne'
+    unLocode: 'AUMEL'
+  STOCKHOLM:
+    city: 'Stockholm'
+    unLocode: 'SESTO'
+  HELSINKI:
+    city: 'Helsinki'
+    unLocode: 'FIHEL'
+  CHICAGO:
+    city: 'Chicago'
+    unLocode: 'USCHI'
+  TOKYO:
+    city: 'Tokyo'
+    unLocode: 'JNTKO'
+  HAMBURG:
+    city: 'Hamburg'
+    unLocode: 'DEHAM'
+  SHANGHAI:
+    city: 'Shanghai'
+    unLocode: 'CNSHA'
+  ROTTERDAM:
+    city: 'Rotterdam'
+    unLocode: 'NLRTM'
+  GOTHENBURG:
+    city: 'Gothenburg'
+    unLocode: 'SEGOT'
+  HANGZHOU:
+    city: 'Hangzhou'
+    unLocode: 'CNHGH'
+  NEWYORK:
+    city: 'New York'
+    unLocode: 'USNYC'
+  DALLAS:
+    city: 'Dallas'
+    unLocode: 'USDAL'
